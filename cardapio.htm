@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+
+    <h1>Comida da Casa</h1>
+
+    <nav>
+        <a href="cardapio.htm">Cardápio</a>
+        <a href="sobre.htm">Sobre</a>
+        <a href="contato.htm">Contato</a>
+        <a href="index.htm">Sair</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <h2>Cardápio</h2>
+
+    <p>Escolha uma das nossas opções.</p>
+
+
+    <div class="cards">
+
+        <!-- PRATO FEITO -->
+
+        <div class="card">
+
+            <img src="img/css/Arroz-e-feijao-prato-feito.webp"
+                 alt="Prato Feito">
+
+            <h3>Prato Feito</h3>
+
+            <p>
+                Arroz, feijão, carne, macarrão e salada.
+            </p>
+
+            <h4>R$ 20,00</h4>
+
+            <label>Quantidade:</label>
+
+            <input
+                type="number"
+                id="qtdPrato"
+                value="1"
+                min="1"
+            >
+
+            <button onclick="adicionar('Prato Feito', 20, 'qtdPrato')">
+                Pedir
+            </button>
+
+        </div>
+
+
+        <!-- FRANGO -->
+
+        <div class="card">
+
+            <img src="img/css/e8658cb4a1b6dba2ad4d07e8c6d174b9_XL.jpg"
+                 alt="Frango Grelhado">
+
+            <h3>Frango Grelhado</h3>
+
+            <p>
+                Arroz, feijão, frango e salada.
+            </p>
+
+            <h4>R$ 22,00</h4>
+
+            <label>Quantidade:</label>
+
+            <input
+                type="number"
+                id="qtdFrango"
+                value="1"
+                min="1"
+            >
+
+            <button onclick="adicionar('Frango Grelhado', 22, 'qtdFrango')">
+                Pedir
+            </button>
+
+        </div>
+
+
+        <!-- CARNE -->
+
+        <div class="card">
+
+            <img src="img/css/receita_de_carne_de_panela_2020-05-19.jpg"
+                 alt="Carne de Panela">
+
+            <h3>Carne de Panela</h3>
+
+            <p>
+                Arroz, feijão, carne e legumes.
+            </p>
+
+            <h4>R$ 25,00</h4>
+
+            <label>Quantidade:</label>
+
+            <input
+                type="number"
+                id="qtdCarne"
+                value="1"
+                min="1"
+            >
+
+            <button onclick="adicionar('Carne de Panela', 25, 'qtdCarne')">
+                Pedir
+            </button>
+
+        </div>
+
+
+        <!-- FEIJOADA -->
+
+        <div class="card">
+
+            <img src="img/css/712d8888-chatgpt-image-20072026-121754.webp"
+                 alt="Feijoada">
+
+            <h3>Feijoada</h3>
+
+            <p>
+                Feijoada, arroz, farofa e couve.
+            </p>
+
+            <h4>R$ 28,00</h4>
+
+            <label>Quantidade:</label>
+
+            <input
+                type="number"
+                id="qtdFeijoada"
+                value="1"
+                min="1"
+            >
+
+            <button onclick="adicionar('Feijoada', 28, 'qtdFeijoada')">
+                Pedir
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CARRINHO -->
+
+    <section class="carrinho">
+
+        <h2>🛒 Meu Carrinho</h2>
+
+        <div id="listaCarrinho">
+
+            <p>Seu carrinho está vazio.</p>
+
+        </div>
+
+        <div class="total">
+
+            <h2>
+                Total: R$ <span id="total">0,00</span>
+            </h2>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+let carrinho = [];
+
+
+function adicionar(nome, preco, campoQuantidade) {
+
+    let quantidade =
+        Number(document.getElementById(campoQuantidade).value);
+
+
+    if (quantidade < 1) {
+        quantidade = 1;
+    }
+
+
+    let produto = carrinho.find(
+        item => item.nome === nome
+    );
+
+
+    if (produto) {
+
+        produto.quantidade += quantidade;
+
+    } else {
+
+        carrinho.push({
+            nome: nome,
+            preco: preco,
+            quantidade: quantidade
+        });
+
+    }
+
+
+    mostrarCarrinho();
+
+}
+
+
+function mostrarCarrinho() {
+
+    let lista =
+        document.getElementById("listaCarrinho");
+
+    let total = 0;
+
+
+    lista.innerHTML = "";
+
+
+    carrinho.forEach((item, index) => {
+
+        let subtotal =
+            item.preco * item.quantidade;
+
+
+        total += subtotal;
+
+
+        lista.innerHTML += `
+
+            <div class="item-carrinho">
+
+                <h3>${item.nome}</h3>
+
+                <p>
+                    Quantidade: ${item.quantidade}
+                </p>
+
+                <p>
+                    Preço: R$ ${item.preco
+                        .toFixed(2)
+                        .replace(".", ",")}
+                </p>
+
+                <p>
+                    Subtotal: R$ ${subtotal
+                        .toFixed(2)
+                        .replace(".", ",")}
+                </p>
+
+                <button onclick="diminuir(${index})">
+                    -
+                </button>
+
+                <button onclick="aumentar(${index})">
+                    +
+                </button>
+
+                <button onclick="remover(${index})">
+                    Remover
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+
+    if (carrinho.length === 0) {
+
+        lista.innerHTML =
+            "<p>Seu carrinho está vazio.</p>";
+
+    }
+
+
+    document.getElementById("total").textContent =
+        total.toFixed(2).replace(".", ",");
+
+}
+
+
+function aumentar(index) {
+
+    carrinho[index].quantidade++;
+
+    mostrarCarrinho();
+
+}
+
+
+function diminuir(index) {
+
+    carrinho[index].quantidade--;
+
+    if (carrinho[index].quantidade <= 0) {
+
+        carrinho.splice(index, 1);
+
+    }
+
+    mostrarCarrinho();
+
+}
+
+
+function remover(index) {
+
+    carrinho.splice(index, 1);
+
+    mostrarCarrinho();
+
+}
+
+</script>
+
+</body>
+</html>
+
+
+
+
