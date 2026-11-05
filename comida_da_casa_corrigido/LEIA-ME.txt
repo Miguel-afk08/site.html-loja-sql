@@ -1,0 +1,13 @@
+# Comida da Casa - Login com PHP e MySQL
+
+## Como colocar no XAMPP
+1. Extraia a pasta `comida_da_casa_corrigido` dentro de `C:\xampp\htdocs`.
+2. Inicie Apache e MySQL no painel do XAMPP.
+3. Abra `http://localhost/phpmyadmin`.
+4. Importe o arquivo `sistema_login (1).sql` na aba Importar.
+5. Acesse `http://localhost/comida_da_casa_corrigido/index.htm`.
+
+## Atenção
+O login consulta a tabela `usuarios` e espera que a senha esteja salva com `password_hash()`.
+Este pacote corrige o formulário e a ligação com `logic.php`, mas ainda não inclui uma tela de cadastro.
+Para testar, cadastre previamente um usuário com senha criptografada (hash) na tabela.
